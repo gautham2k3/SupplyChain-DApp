@@ -14,9 +14,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { addProduct } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
 import { PackagePlus, Loader2 } from "lucide-react";
+import { useProducts } from "@/context/product-context"; // Import useProducts hook
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -32,6 +33,9 @@ const formSchema = z.object({
 
 export function AddProductForm() {
   const { toast } = useToast();
+  const { addProduct } = useProducts(); // Get addProduct function from context
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,12 +46,11 @@ export function AddProductForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('details', values.details);
-    formData.append('initialLocation', values.initialLocation);
+    setIsSubmitting(true);
+    // Simulate async operation if needed, or directly call addProduct
+    // await new Promise(resolve => setTimeout(resolve, 500)); // Simulate delay
 
-    const result = await addProduct(formData);
+    const result = addProduct(values.name, values.details, values.initialLocation);
 
     if (result.success) {
       toast({
@@ -62,57 +65,61 @@ export function AddProductForm() {
         variant: "destructive",
       });
     }
+    setIsSubmitting(false);
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Name</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., Organic Coffee Beans" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="details"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Details</FormLabel>
-              <FormControl>
-                <Textarea rows={3} placeholder="e.g., 1kg bag, Arabica, Fair Trade Certified" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="initialLocation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Initial Location (Production)</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., Farm A, Colombia" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
-          {form.formState.isSubmitting ? (
+      {/* Removed flex-grow and added space-y-4 for consistent spacing */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col justify-between flex-grow">
+        <div className="space-y-4"> {/* Group form fields */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., Organic Coffee Beans" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="details"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Product Details</FormLabel>
+                  <FormControl>
+                    <Textarea rows={3} placeholder="e.g., 1kg bag, Arabica, Fair Trade Certified" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="initialLocation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Initial Location (Production)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., Farm A, Colombia" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+        </div>
+        <Button type="submit" disabled={isSubmitting} className="w-full mt-auto"> {/* Ensure button is at the bottom */}
+          {isSubmitting ? (
             <Loader2 className="animate-spin" />
           ) : (
             <PackagePlus />
           )}
-          {form.formState.isSubmitting ? 'Adding Product...' : 'Add Product'}
+          {isSubmitting ? 'Adding Product...' : 'Add Product'}
         </Button>
       </form>
     </Form>

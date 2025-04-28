@@ -1,3 +1,5 @@
+"use client"; // Mark page as client component
+
 import { AddProductForm } from '@/components/add-product-form';
 import { ProductTrackingList } from '@/components/product-tracking-list';
 import { SupplyChainVisualization } from '@/components/supply-chain-visualization';
@@ -9,17 +11,19 @@ export default function Home() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full"> {/* Ensure grid takes full height */}
       {/* Left Column */}
       <div className="lg:col-span-1 flex flex-col gap-6">
-        {/* Updated Card: Removed h-full */}
-        <Card className="flex flex-col"> {/* Removed h-full */}
+        {/* Card: Add New Product */}
+        {/* Ensure this card grows vertically to fill space, especially the form inside */}
+         <Card className="flex flex-col flex-grow"> {/* Added flex-grow */}
           <CardHeader>
             <CardTitle>Add New Product</CardTitle>
             <CardDescription>Enter details to track a new product.</CardDescription>
           </CardHeader>
-          {/* Updated CardContent: Removed flex-grow */}
-          <CardContent className="flex flex-col flex-grow"> {/* Removed flex-grow, Added flex-grow back to content */}
+          {/* Ensure CardContent also grows and makes the form use the space */}
+           <CardContent className="flex flex-col flex-grow"> {/* Added flex-grow */}
             <AddProductForm />
           </CardContent>
         </Card>
+        {/* Card: Supply Chain Stages (Can remain fixed height or less priority for growth) */}
         <Card>
           <CardHeader>
             <CardTitle>Supply Chain Stages</CardTitle>
