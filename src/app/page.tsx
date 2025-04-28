@@ -9,14 +9,14 @@ export default function Home() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full"> {/* Ensure grid takes full height */}
       {/* Left Column */}
       <div className="lg:col-span-1 flex flex-col gap-6">
-        {/* Updated Card to have flex-grow and flex-col */}
-        <Card className="flex-grow flex flex-col">
+        {/* Updated Card: Removed flex-grow */}
+        <Card className="flex flex-col"> {/* Removed flex-grow */}
           <CardHeader>
             <CardTitle>Add New Product</CardTitle>
             <CardDescription>Enter details to track a new product.</CardDescription>
           </CardHeader>
-          {/* Updated CardContent to also be a flex container */}
-          <CardContent className="flex-grow flex flex-col">
+          {/* Updated CardContent: Removed flex-grow */}
+          <CardContent className="flex flex-col"> {/* Removed flex-grow */}
             <AddProductForm />
           </CardContent>
         </Card>
