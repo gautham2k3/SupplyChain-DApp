@@ -36,7 +36,7 @@ export function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <Card className="shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col">
+    <Card className="shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col h-full">
       <CardHeader className="pb-3">
         <div className="flex justify-between items-start gap-4">
             <div className="flex-1">
