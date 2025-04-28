@@ -70,8 +70,8 @@ export function AddProductForm() {
 
   return (
     <Form {...form}>
-      {/* Removed flex-grow and added space-y-4 for consistent spacing */}
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col justify-between flex-grow">
+      {/* Removed flex-grow, justify-between from form and mt-auto from button */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
         <div className="space-y-4"> {/* Group form fields */}
             <FormField
               control={form.control}
@@ -113,7 +113,8 @@ export function AddProductForm() {
               )}
             />
         </div>
-        <Button type="submit" disabled={isSubmitting} className="w-full mt-auto"> {/* Ensure button is at the bottom */}
+        {/* Removed mt-auto */}
+        <Button type="submit" disabled={isSubmitting} className="w-full">
           {isSubmitting ? (
             <Loader2 className="animate-spin" />
           ) : (
