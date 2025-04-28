@@ -13,7 +13,7 @@ export default function Home() {
       <div className="lg:col-span-1 flex flex-col gap-6">
         {/* Card: Add New Product */}
         {/* Ensure this card grows vertically to fill space, especially the form inside */}
-         <Card className="flex flex-col flex-grow"> {/* Added flex-grow */}
+         <Card className="flex flex-col"> {/* Added flex-grow */}
           <CardHeader>
             <CardTitle>Add New Product</CardTitle>
             <CardDescription>Enter details to track a new product.</CardDescription>

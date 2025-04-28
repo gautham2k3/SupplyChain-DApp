@@ -106,7 +106,7 @@ export function AddProductForm() {
                 <FormItem>
                   <FormLabel>Initial Location (Production)</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Farm A, Colombia" {...field} />
+                    <Input placeholder="e.g., Farm Zen, Darjeling" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -43,14 +43,15 @@ export function ProductTrackingList() {
   });
 
 
-  return (
-    // Rely on parent flex-grow.
-    <ScrollArea className="h-full">
-        <div className="space-y-4 pr-4 pb-4"> {/* Add padding-right for scrollbar and padding-bottom */}
-            {sortedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-            ))}
-        </div>
+  return <div className="flex-grow overflow-auto">
+    <ScrollArea className="h-50 w-full">
+      <div className="space-y-4 p-4">
+        {
+          sortedProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        }
+      </div>
     </ScrollArea>
-  );
+  </div>
 }
