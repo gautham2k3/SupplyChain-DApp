@@ -16,12 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { addTrackingEvent } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
-import { MapPin, PlusCircle } from "lucide-react";
+import { MapPin, PlusCircle, Loader2 } from "lucide-react";
 
 const trackingStages = ['Production', 'Shipping', 'Delivery', 'Received'] as const;
 
 const formSchema = z.object({
-  stage: z.enum(trackingStages),
+  stage: z.enum(trackingStages, { required_error: "Please select a stage."}),
   location: z.string().min(3, {
     message: "Location must be at least 3 characters.",
   }),
@@ -32,14 +32,15 @@ const formSchema = z.object({
 
 interface AddTrackingEventFormProps {
   productId: string;
+  onSuccess?: () => void; // Optional callback on success
 }
 
-export function AddTrackingEventForm({ productId }: AddTrackingEventFormProps) {
+export function AddTrackingEventForm({ productId, onSuccess }: AddTrackingEventFormProps) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      stage: "Shipping", // Default to the next logical stage perhaps
+      stage: undefined, // Start with no default stage selected
       location: "",
       status: "",
     },
@@ -59,6 +60,7 @@ export function AddTrackingEventForm({ productId }: AddTrackingEventFormProps) {
         description: result.message,
       });
       form.reset(); // Reset form fields
+      onSuccess?.(); // Call the success callback if provided
     } else {
       toast({
         title: "Error",
@@ -70,7 +72,7 @@ export function AddTrackingEventForm({ productId }: AddTrackingEventFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-1">
         <FormField
           control={form.control}
           name="stage"
@@ -122,8 +124,12 @@ export function AddTrackingEventForm({ productId }: AddTrackingEventFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" size="sm" variant="outline" disabled={form.formState.isSubmitting} className="w-full border-primary text-primary hover:bg-primary/10 hover:text-primary">
-          <PlusCircle className="mr-2 h-4 w-4" />
+        <Button type="submit" size="sm" variant="outline" disabled={form.formState.isSubmitting} className="w-full border-primary text-primary hover:bg-primary/10 hover:text-primary gap-2">
+           {form.formState.isSubmitting ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <PlusCircle />
+          )}
           {form.formState.isSubmitting ? 'Adding Event...' : 'Add Tracking Event'}
         </Button>
       </form>

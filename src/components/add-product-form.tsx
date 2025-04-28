@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { addProduct } from "@/lib/actions";
 import { useToast } from "@/hooks/use-toast";
-import { PackagePlus } from "lucide-react";
+import { PackagePlus, Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -66,7 +66,7 @@ export function AddProductForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="name"
@@ -87,7 +87,7 @@ export function AddProductForm() {
             <FormItem>
               <FormLabel>Product Details</FormLabel>
               <FormControl>
-                <Textarea placeholder="e.g., 1kg bag, Arabica, Fair Trade Certified" {...field} />
+                <Textarea rows={3} placeholder="e.g., 1kg bag, Arabica, Fair Trade Certified" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -106,9 +106,13 @@ export function AddProductForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={form.formState.isSubmitting} className="w-full bg-primary hover:bg-primary/90">
-           <PackagePlus className="mr-2 h-4 w-4" />
-          {form.formState.isSubmitting ? 'Adding...' : 'Add Product'}
+        <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
+          {form.formState.isSubmitting ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <PackagePlus />
+          )}
+          {form.formState.isSubmitting ? 'Adding Product...' : 'Add Product'}
         </Button>
       </form>
     </Form>
