@@ -1,4 +1,7 @@
-import { Link } from 'lucide-react'; // Assuming Link is an icon component
+"use client"; // Convert to client component
+
+import { Link as LinkIcon } from 'lucide-react'; // Renamed to avoid name conflict
+import { ConnectWallet } from './connect-wallet';
 
 export function Header() {
   return (
@@ -13,9 +16,9 @@ export function Header() {
           </svg>
           <h1 className="text-xl md:text-2xl font-semibold text-foreground tracking-tight">ChainLink</h1>
         </div>
-        {/* Placeholder for potential future navigation or user profile */}
+        {/* Add the wallet connection button */}
         <div>
-            {/* <UserNav /> */}
+            <ConnectWallet />
         </div>
       </div>
     </header>
