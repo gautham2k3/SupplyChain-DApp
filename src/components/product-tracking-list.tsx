@@ -22,8 +22,8 @@ export async function ProductTrackingList() {
   const sortedProducts = products.slice().sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    // Adjust height calculation based on your layout. This example tries to fill available space.
-    <ScrollArea className="h-[calc(100vh-15rem)] md:h-[calc(100vh-18rem)]">
+    // Remove fixed height calculation. Rely on parent flex-grow.
+    <ScrollArea className="h-full"> {/* Changed: Use h-full */}
         <div className="space-y-4 pr-4 pb-4"> {/* Add padding-right for scrollbar and padding-bottom */}
             {sortedProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
